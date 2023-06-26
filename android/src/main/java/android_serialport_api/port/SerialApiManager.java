@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 
 public class SerialApiManager {
@@ -32,6 +34,7 @@ public class SerialApiManager {
     public static final String write = "write";
     public static final String append = "append";
 
+    @Retention(RetentionPolicy.SOURCE)
     @StringDef({port, read, write, append})
     public @interface Type {
     }

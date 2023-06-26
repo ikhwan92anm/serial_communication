@@ -68,15 +68,7 @@ class _HomePageState extends State<HomePage> {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
-              children: [
-                setupButton(context),
-                const Divider(),
-                operations(),
-                const Divider(),
-                sendCommand(),
-                const Divider(),
-                response()
-              ],
+              children: [setupButton(context), const Divider(), operations(), const Divider(), sendCommand(), const Divider(), response()],
             ),
           ),
         ),
@@ -218,6 +210,7 @@ class _HomePageState extends State<HomePage> {
       child: Scrollbar(
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
+          reverse: true,
           scrollDirection: Axis.vertical, //.horizontal
           child: Text(
             data,
@@ -242,8 +235,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Expanded(
               child: TextField(
-                decoration:
-                    const InputDecoration(hintText: "Write send Command"),
+                decoration: const InputDecoration(hintText: "Write send Command"),
                 onChanged: (value) {
                   message = value;
                 },
@@ -253,6 +245,7 @@ class _HomePageState extends State<HomePage> {
                 name: "Send",
                 onPress: () {
                   serialCommunication.sendCommand(message: message);
+                  print(message);
                 })
           ],
         ),
@@ -282,10 +275,7 @@ class _HomePageState extends State<HomePage> {
                 button(
                     name: "Open",
                     onPress: () {
-                      serialCommunication.openPort(
-                          dataFormat: format,
-                          serialPort: selectedPort,
-                          baudRate: selectedBaudRate);
+                      serialCommunication.openPort(dataFormat: format, serialPort: selectedPort, baudRate: selectedBaudRate);
                     }),
                 button(
                     name: "Close",
@@ -339,116 +329,97 @@ class _HomePageState extends State<HomePage> {
                       topRight: Radius.circular(26),
                     ),
                   ),
-                  child: ListView(
-                      physics: const ScrollPhysics(),
-                      shrinkWrap: true,
-                      children: [
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            verticalDirection: VerticalDirection.down,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Center(
-                                    child: Container(
-                                  height: 5,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(90),
-                                  ),
-                                )),
+                  child: ListView(physics: const ScrollPhysics(), shrinkWrap: true, children: [
+                    Column(crossAxisAlignment: CrossAxisAlignment.start, verticalDirection: VerticalDirection.down, children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Center(
+                            child: Container(
+                          height: 5,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(90),
+                          ),
+                        )),
+                      ),
+                      const Divider(),
+                      listTile(
+                          widget: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              borderRadius: BorderRadius.circular(10),
+                              hint: Text(
+                                selectedPort,
+                                style: mediumStyle.apply(fontSizeFactor: 0.9),
                               ),
-                              const Divider(),
-                              listTile(
-                                  widget: DropdownButtonHideUnderline(
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      borderRadius: BorderRadius.circular(10),
-                                      hint: Text(
-                                        selectedPort,
-                                        style: mediumStyle.apply(
-                                            fontSizeFactor: 0.9),
-                                      ),
-                                      items: serialList!.map((String? value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child:
-                                              Text(value!, style: mediumStyle),
-                                        );
-                                      }).toList(),
-                                      onChanged: (p0) {
-                                        updateSelectPort(state, p0!);
-                                      },
-                                    ),
-                                  ),
-                                  title: "Serial Port:"),
-                              listTile(
-                                  widget: DropdownButtonHideUnderline(
-                                    child: DropdownButton<int>(
-                                      isExpanded: true,
-                                      borderRadius: BorderRadius.circular(10),
-                                      hint: Text(
-                                        selectedBaudRate.toString(),
-                                        style: mediumStyle.apply(
-                                            fontSizeFactor: 0.9),
-                                      ),
-                                      menuMaxHeight: 400.0,
-                                      items: serialCommunication.baudRateList
-                                          .map((int? value) {
-                                        return DropdownMenuItem<int>(
-                                          value: value,
-                                          child: Text(value.toString(),
-                                              style: mediumStyle),
-                                        );
-                                      }).toList(),
-                                      onChanged: (p0) {
-                                        updateSelectBaudRate(state, p0!);
-                                      },
-                                    ),
-                                  ),
-                                  title: 'Select the BaudRate:'),
-                              listTile(
-                                widget: Row(
-                                  children: [
-                                    Expanded(
-                                      child: CheckboxListTile(
-                                        title: const Text(
-                                          "ASCII",
-                                        ),
-                                        value: format == DataFormat.ASCII
-                                            ? true
-                                            : false,
-                                        onChanged: (newValue) {
-                                          updateDataFormat(
-                                              state, DataFormat.ASCII);
-                                        },
-                                        controlAffinity:
-                                            ListTileControlAffinity.leading,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: CheckboxListTile(
-                                        title: const Text(
-                                          "HEX String",
-                                        ),
-                                        value: format == DataFormat.HEX_STRING
-                                            ? true
-                                            : false,
-                                        onChanged: (newValue) {
-                                          updateDataFormat(
-                                              state, DataFormat.HEX_STRING);
-                                        },
-                                        controlAffinity:
-                                            ListTileControlAffinity.leading,
-                                      ),
-                                    ),
-                                  ],
+                              items: serialList!.map((String? value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value!, style: mediumStyle),
+                                );
+                              }).toList(),
+                              onChanged: (p0) {
+                                updateSelectPort(state, p0!);
+                              },
+                            ),
+                          ),
+                          title: "Serial Port:"),
+                      listTile(
+                          widget: DropdownButtonHideUnderline(
+                            child: DropdownButton<int>(
+                              isExpanded: true,
+                              borderRadius: BorderRadius.circular(10),
+                              hint: Text(
+                                selectedBaudRate.toString(),
+                                style: mediumStyle.apply(fontSizeFactor: 0.9),
+                              ),
+                              menuMaxHeight: 400.0,
+                              items: serialCommunication.baudRateList.map((int? value) {
+                                return DropdownMenuItem<int>(
+                                  value: value,
+                                  child: Text(value.toString(), style: mediumStyle),
+                                );
+                              }).toList(),
+                              onChanged: (p0) {
+                                updateSelectBaudRate(state, p0!);
+                              },
+                            ),
+                          ),
+                          title: 'Select the BaudRate:'),
+                      listTile(
+                        widget: Row(
+                          children: [
+                            Expanded(
+                              child: CheckboxListTile(
+                                title: const Text(
+                                  "ASCII",
                                 ),
-                                title: "Data Format",
+                                value: format == DataFormat.ASCII ? true : false,
+                                onChanged: (newValue) {
+                                  updateDataFormat(state, DataFormat.ASCII);
+                                },
+                                controlAffinity: ListTileControlAffinity.leading,
                               ),
-                            ])
-                      ]));
+                            ),
+                            Expanded(
+                              child: CheckboxListTile(
+                                title: const Text(
+                                  "HEX String",
+                                ),
+                                value: format == DataFormat.HEX_STRING ? true : false,
+                                onChanged: (newValue) {
+                                  updateDataFormat(state, DataFormat.HEX_STRING);
+                                },
+                                controlAffinity: ListTileControlAffinity.leading,
+                              ),
+                            ),
+                          ],
+                        ),
+                        title: "Data Format",
+                      ),
+                    ])
+                  ]));
             },
           );
         });
@@ -462,8 +433,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> updateDataFormat(
-      StateSetter updateState, DataFormat value) async {
+  Future<void> updateDataFormat(StateSetter updateState, DataFormat value) async {
     updateState(() {
       setState(() {
         format = value;

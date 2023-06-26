@@ -24,7 +24,7 @@ public abstract class BaseReader {
         } else {
             read = TransformUtils.bytes2HexString(buffer, size);
         }
-        log(SerialApiManager.read, port, isAscii, new StringBuffer().append(read));
+        // log(SerialApiManager.read, port, isAscii, new StringBuffer().append(read));
         onParse(port, isAscii, read);
     }
 

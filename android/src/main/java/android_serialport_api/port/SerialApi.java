@@ -62,7 +62,7 @@ class SerialApi {
             return open;
         }
         try {
-            serialPort = new android_serialport_api.SerialPort(new File(port), 9600, 0);
+            serialPort = new android_serialport_api.SerialPort(new File(port), 57600, 0);
             if (serialPort == null) {
 
                 log(SerialApiManager.port, port, isAscii, new StringBuffer().append("Boot failure：SerialPort == null"));
@@ -170,7 +170,7 @@ class SerialApi {
     }
 
     public void write(boolean isAscii, String cmd) {
-        log(SerialApiManager.write, port, isAscii, new StringBuffer().append(cmd));
+        // log(SerialApiManager.write, port, isAscii, new StringBuffer().append(cmd));
         if (outputStream != null) {
             synchronized (outputStream) {
                 byte[] bytes;
