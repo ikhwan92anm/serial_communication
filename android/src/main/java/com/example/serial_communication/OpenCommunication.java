@@ -55,7 +55,7 @@ public class OpenCommunication  {
                 //         .append("\n").toString());
                 //         .append(log).toString());
 
-                CustomEventHandler.sendEvent(  Map.of("LogChannel", logChannel, "readChannel", readChannel));
+                // CustomEventHandler.sendEvent(  Map.of("LogChannel", logChannel, "readChannel", readChannel));
             }
 
         });

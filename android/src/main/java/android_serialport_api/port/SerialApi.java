@@ -43,7 +43,7 @@ class SerialApi {
 
     private void log(@SerialApiManager.Type String type, String port, boolean isAscii, String log) {
         if (logInterceptor != null) {
-            logInterceptor.log(type, port, isAscii, log);
+            // logInterceptor.log(type, port, isAscii, log);
         }
     }
 
