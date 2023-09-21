@@ -7,13 +7,13 @@
 
 package com.example.serial_communication;
 
+import android.util.Log;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import io.flutter.plugin.common.EventChannel;
 import android.content.BroadcastReceiver;
-
+import io.flutter.plugin.common.EventChannel;
 import java.util.Map;
 
 class CustomEventHandler extends BroadcastReceiver implements EventChannel.StreamHandler {
@@ -33,8 +33,20 @@ class CustomEventHandler extends BroadcastReceiver implements EventChannel.Strea
     }
 
     static void sendEvent(final Map<String,String> response) {
-        Runnable runnable = () -> events.success(response);
-        mainHandler.post(runnable);
+        // Runnable runnable = () -> events.success(response);
+        // mainHandler.post(runnable);
+        if (response != null && events != null && mainHandler != null) {
+            mainHandler.post(new Runnable() {
+              @Override
+              public void run() {
+                try {
+                    events.success(response);
+                } catch (Exception e) {
+                    Log.e("CustomEventHandler", "Exception sendEvent: " + e.toString());
+                }    
+              }
+            });
+        }  
     }
 
     @Override
