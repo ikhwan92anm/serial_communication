@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-class SerialApi {
+class SerialApi1 {
 
     private android_serialport_api.SerialPort serialPort;
     private InputStream inputStream;
@@ -26,7 +26,7 @@ class SerialApi {
     private int flags;
     private LogInterceptorSerialPort logInterceptor;
 
-    public SerialApi(String port, boolean isAscii, int baudRate, int flags) {
+    public SerialApi1(String port, boolean isAscii, int baudRate, int flags) {
         this.port = port;
         this.isAscii = isAscii;
         this.baudRate = baudRate;
@@ -62,7 +62,7 @@ class SerialApi {
             return open;
         }
         try {
-            serialPort = new android_serialport_api.SerialPort(new File(port), 57600, 0);
+            serialPort = new android_serialport_api.SerialPort(new File(port), baudRate, 0);
             if (serialPort == null) {
 
                 log(SerialApiManager.port, port, isAscii, new StringBuffer().append("Boot failure：SerialPort == null"));
@@ -224,5 +224,4 @@ class SerialApi {
             e.printStackTrace();
         }
     }
-
 }

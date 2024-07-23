@@ -8,8 +8,7 @@ abstract class SerialCommunicationPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static SerialCommunicationPlatform _instance =
-      MethodChannelSerialCommunication();
+  static SerialCommunicationPlatform _instance = MethodChannelSerialCommunication();
 
   /// The default instance of [SerialCommunicationPlatform] to use.
   ///
@@ -34,11 +33,12 @@ abstract class SerialCommunicationPlatform extends PlatformInterface {
   /// Thrown by operations that have not been implemented yet.
   /// a [UnsupportedError] all things considered. This mistake is just planned for
   /// use during improvement.
-  Future<String?> openPort(
-      {required DataFormat dataFormat,
-      required String serialPort,
-      required int baudRate}) {
-    throw UnimplementedError('openSerial() has not been implemented.');
+  Future<String?> openPort1({required DataFormat dataFormat, required String serialPort, required int baudRate}) {
+    throw UnimplementedError('openPort1() has not been implemented.');
+  }
+
+  Future<String?> openPort2({required DataFormat dataFormat, required String serialPort, required int baudRate}) {
+    throw UnimplementedError('openPort2() has not been implemented.');
   }
 
   /// Thrown by operations that have not been implemented yet.
@@ -51,15 +51,23 @@ abstract class SerialCommunicationPlatform extends PlatformInterface {
   /// Thrown by operations that have not been implemented yet.
   /// a [UnsupportedError] all things considered. This mistake is just planned for
   /// use during improvement.
-  Future<String?> closePort() {
-    throw UnimplementedError('closeSerial() has not been implemented.');
+  Future<String?> closePort1() {
+    throw UnimplementedError('closePort1() has not been implemented.');
+  }
+
+  Future<String?> closePort2() {
+    throw UnimplementedError('closePort2() has not been implemented.');
   }
 
   /// Thrown by operations that have not been implemented yet.
   /// a [UnsupportedError] all things considered. This mistake is just planned for
   /// use during improvement.
-  Future<String?> sendCommand({required String message}) {
-    throw UnimplementedError('sendCommand() has not been implemented.');
+  Future<String?> sendCommandPort1({required String message}) {
+    throw UnimplementedError('sendCommandPort1() has not been implemented.');
+  }
+
+  Future<String?> sendCommandPort2({required String message}) {
+    throw UnimplementedError('sendCommandPort2() has not been implemented.');
   }
 
   /// Thrown by operations that have not been implemented yet.
@@ -73,8 +81,12 @@ abstract class SerialCommunicationPlatform extends PlatformInterface {
   /// Thrown by operations that have not been implemented yet.
   /// a [UnsupportedError] all things considered. This mistake is just planned for
   /// use during improvement.
-  Future<String?> clearRead() {
-    throw UnimplementedError('clearRead() has not been implemented.');
+  Future<String?> clearReadPort1() {
+    throw UnimplementedError('clearReadPort1() has not been implemented.');
+  }
+
+  Future<String?> clearReadPort2() {
+    throw UnimplementedError('clearReadPort2() has not been implemented.');
   }
 
   /// Thrown by operations that have not been implemented yet.

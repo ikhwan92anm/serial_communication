@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                 button(
                     name: "Empty",
                     onPress: () {
-                      serialCommunication.clearRead();
+                      serialCommunication.clearReadPort1();
                     }),
               ],
             ),
@@ -244,7 +244,7 @@ class _HomePageState extends State<HomePage> {
             button(
                 name: "Send",
                 onPress: () {
-                  serialCommunication.sendCommand(message: message);
+                  serialCommunication.sendCommandPort1(message: message);
                   print(message);
                 })
           ],
@@ -275,12 +275,12 @@ class _HomePageState extends State<HomePage> {
                 button(
                     name: "Open",
                     onPress: () {
-                      serialCommunication.openPort(dataFormat: format, serialPort: selectedPort, baudRate: selectedBaudRate);
+                      serialCommunication.openPort1(dataFormat: format, serialPort: selectedPort, baudRate: selectedBaudRate);
                     }),
                 button(
                     name: "Close",
                     onPress: () {
-                      serialCommunication.closePort();
+                      serialCommunication.closePort1();
                     })
               ],
             ),
@@ -292,8 +292,8 @@ class _HomePageState extends State<HomePage> {
 
   void _updateConnectionStatus(SerialResponse? result) async {
     setState(() {
-      logData = result!.logChannel ?? "";
-      receivedData = result.readChannel ?? "";
+      logData = result!.logChannelPort1 ?? "";
+      receivedData = result.readChannelPort1 ?? "";
     });
   }
 

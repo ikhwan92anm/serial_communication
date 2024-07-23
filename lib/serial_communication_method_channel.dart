@@ -19,9 +19,7 @@ class MethodChannelSerialCommunication extends SerialCommunicationPlatform {
   ///[startSerial] : return type [SerialResponse]
   @override
   Stream<SerialResponse> startSerial() {
-    Stream<SerialResponse> data = eventChannel.receiveBroadcastStream().map(
-        (dynamic result) =>
-            SerialResponse.fromMap(Map<String, String>.from(result)));
+    Stream<SerialResponse> data = eventChannel.receiveBroadcastStream().map((dynamic result) => SerialResponse.fromMap(Map<String, String>.from(result)));
 
     return data;
   }
@@ -31,8 +29,7 @@ class MethodChannelSerialCommunication extends SerialCommunicationPlatform {
   ///[getAvailablePorts] : return type [List] of [String]
   @override
   Future<List<String>?> getAvailablePorts() async {
-    List<String>? list = await methodChannel
-        .invokeListMethod<String>('embeddedSerial/availablePorts');
+    List<String>? list = await methodChannel.invokeListMethod<String>('embeddedSerial/availablePorts');
     return list;
   }
 
@@ -44,17 +41,24 @@ class MethodChannelSerialCommunication extends SerialCommunicationPlatform {
   /// 3) And baud Rate
   /// Once the the port is opened the TX and RX is started
   @override
-  Future<String?> openPort(
-      {required DataFormat dataFormat,
-      required String serialPort,
-      required int baudRate}) async {
+  Future<String?> openPort1({required DataFormat dataFormat, required String serialPort, required int baudRate}) async {
     final argument = {
       "dataFormat": dataFormat == DataFormat.ASCII ? "true" : "false",
       "serialPort": serialPort,
       "baudRate": baudRate.toString(),
     };
-    final version = await methodChannel.invokeMethod<String>(
-        'embeddedSerial/open', argument);
+    final version = await methodChannel.invokeMethod<String>('embeddedSerial/openPort1', argument);
+    return version;
+  }
+
+  @override
+  Future<String?> openPort2({required DataFormat dataFormat, required String serialPort, required int baudRate}) async {
+    final argument = {
+      "dataFormat": dataFormat == DataFormat.ASCII ? "true" : "false",
+      "serialPort": serialPort,
+      "baudRate": baudRate.toString(),
+    };
+    final version = await methodChannel.invokeMethod<String>('embeddedSerial/openPort2', argument);
     return version;
   }
 
@@ -62,21 +66,34 @@ class MethodChannelSerialCommunication extends SerialCommunicationPlatform {
   ///At a time you can't opened two ports
   ///Close the previous to open the new
   @override
-  Future<String?> closePort() async {
-    final version =
-        await methodChannel.invokeMethod<String>('embeddedSerial/close');
+  Future<String?> closePort1() async {
+    final version = await methodChannel.invokeMethod<String>('embeddedSerial/closePort1');
+    return version;
+  }
+
+  @override
+  Future<String?> closePort2() async {
+    final version = await methodChannel.invokeMethod<String>('embeddedSerial/closePort2');
     return version;
   }
 
   /// [sendCommand] call the native method to write the transmit data
   /// the argument [message] will be transmit
   @override
-  Future<String?> sendCommand({required String message}) async {
+  Future<String?> sendCommandPort1({required String message}) async {
     final argument = {
       "message": message,
     };
-    final version = await methodChannel.invokeMethod<String>(
-        'embeddedSerial/send', argument);
+    final version = await methodChannel.invokeMethod<String>('embeddedSerial/sendPort1', argument);
+    return version;
+  }
+
+  @override
+  Future<String?> sendCommandPort2({required String message}) async {
+    final argument = {
+      "message": message,
+    };
+    final version = await methodChannel.invokeMethod<String>('embeddedSerial/sendPort2', argument);
     return version;
   }
 
@@ -84,17 +101,21 @@ class MethodChannelSerialCommunication extends SerialCommunicationPlatform {
   /// it will empty the previous operation log
   @override
   Future<String?> clearLog() async {
-    final version =
-        await methodChannel.invokeMethod<String>('embeddedSerial/clearLog');
+    final version = await methodChannel.invokeMethod<String>('embeddedSerial/clearLog');
     return version;
   }
 
   /// [clearRead] will clear the read message
   /// all the previous RX data will be clear when you call this method
   @override
-  Future<String?> clearRead() async {
-    final version =
-        await methodChannel.invokeMethod<String>('embeddedSerial/clearRead');
+  Future<String?> clearReadPort1() async {
+    final version = await methodChannel.invokeMethod<String>('embeddedSerial/clearReadPort1');
+    return version;
+  }
+
+  @override
+  Future<String?> clearReadPort2() async {
+    final version = await methodChannel.invokeMethod<String>('embeddedSerial/clearReadPort2');
     return version;
   }
 
@@ -102,8 +123,7 @@ class MethodChannelSerialCommunication extends SerialCommunicationPlatform {
   /// and clear all the background  threads from the memory.
   @override
   Future<String?> destroyResources() async {
-    final version =
-        await methodChannel.invokeMethod<String>('embeddedSerial/destroy');
+    final version = await methodChannel.invokeMethod<String>('embeddedSerial/destroy');
     return version;
   }
 }

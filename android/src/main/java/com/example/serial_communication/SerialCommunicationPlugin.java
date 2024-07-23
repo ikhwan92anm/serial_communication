@@ -68,22 +68,42 @@ public class SerialCommunicationPlugin implements FlutterPlugin, MethodCallHandl
         list.addAll(communication.sendDeviceData());
         result.success(list);
         break;
-      case "embeddedSerial/open":
-        communication.open(argments.get("serialPort"), Boolean.parseBoolean(argments.get("dataFormat")),Integer.parseInt(argments.get("baudRate")));
+      case "embeddedSerial/openPort1":
+        communication.openPort1(argments.get("serialPort"), Boolean.parseBoolean(argments.get("dataFormat")),Integer.parseInt(argments.get("baudRate")));
         break;
-      case "embeddedSerial/close":
-        communication.close();
+      case "embeddedSerial/openPort2":
+        communication.openPort2(argments.get("serialPort"), Boolean.parseBoolean(argments.get("dataFormat")),Integer.parseInt(argments.get("baudRate")));
         break;
-      case "embeddedSerial/send":
-        communication.send(argments.get("message"));
+      case "embeddedSerial/closePort1":
+        communication.closePort1();
+        break;
+      case "embeddedSerial/closePort2":
+        communication.closePort2();
+        break;
+      case "embeddedSerial/sendPort1":
+        communication.sendPort1(argments.get("message"));
+        break;
+      case "embeddedSerial/sendPort2":
+        communication.sendPort2(argments.get("message"));
         break;
       case "embeddedSerial/clearLog":
-        communication.logChannel = "";
-        receiver.sendEvent(  Map.of("LogChannel", communication.logChannel, "readChannel", communication.readChannel));
+        communication.logChannelPort1 = "";
+        communication.logChannelPort2 = "";
+        communication.readChannelPort1 = "";
+        communication.readChannelPort2 = "";
+        receiver.sendEvent(  Map.of("logChannelPort1", communication.logChannelPort1, "readChannelPort1", communication.readChannelPort1, "logChannelPort2", communication.logChannelPort2, "readChannelPort2", communication.readChannelPort2));
         break;
-      case "embeddedSerial/clearRead":
-        communication.readChannel = "";
-        receiver.sendEvent(  Map.of("LogChannel", communication.logChannel, "readChannel", communication.readChannel));
+      case "embeddedSerial/clearReadPort1":
+        communication.logChannelPort1 = "";
+        communication.logChannelPort2 = "";
+        communication.readChannelPort1 = "";
+        receiver.sendEvent(  Map.of("logChannelPort1", communication.logChannelPort1, "readChannelPort1", communication.readChannelPort1, "logChannelPort2", communication.logChannelPort2, "readChannelPort2", communication.readChannelPort2));
+        break;
+      case "embeddedSerial/clearReadPort2":
+        communication.logChannelPort1 = "";
+        communication.logChannelPort2 = "";
+        communication.readChannelPort2 = "";
+        receiver.sendEvent(  Map.of("logChannelPort1", communication.logChannelPort1, "readChannelPort1", communication.readChannelPort1, "logChannelPort2", communication.logChannelPort2, "readChannelPort2", communication.readChannelPort2));
         break;
       case "embeddedSerial/destroy":
         communication.destroyResources();
@@ -92,8 +112,6 @@ public class SerialCommunicationPlugin implements FlutterPlugin, MethodCallHandl
         result.notImplemented();
     }
   }
-
-
 }
 
 
